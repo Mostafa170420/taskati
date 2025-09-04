@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:taskati/features/upload_info/page/upload_info_screen.dart';
 
 import '../../../core/extentions/navigation.dart';
+import '../../home/page/home_screens.dart';
+import '../../upload_info/cubit/upload_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +18,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 5), () {
-      pushWithReplacement(context, UploadInfoScreen());
+      bool isUpload = BlocProvider.of<UploadCubit>(context).isUpload!;
+
+      pushWithReplacement(
+          context, isUpload ? const HomeScreens() : UploadInfoScreen());
     });
     super.initState();
   }

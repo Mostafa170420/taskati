@@ -1,12 +1,25 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/features/upload_info/cubit/upload_states.dart';
 
 class UploadCubit extends Cubit<UploadStates> {
   UploadCubit() : super(UploadInitialState());
   String? path;
+  String? name;
+  bool? isUpload;
+  getDAta() {
+    name = LocalHelper.getData(LocalHelper.kName);
+    path = LocalHelper.getData(LocalHelper.kImage);
+    isUpload = LocalHelper.getData(LocalHelper.kIsUpload) ?? false;
+    emit(UploadDoneState());
+  }
+
   void checkData(String name) {
     if (path != null && name.isNotEmpty) {
-      emit(UploadDoneState());
+      LocalHelper.cacheData(LocalHelper.kName, name);
+      LocalHelper.cacheData(LocalHelper.kImage, path);
+      LocalHelper.cacheData(LocalHelper.kIsUpload, true);
+      getDAta();
     } else if (path != null && name.isEmpty) {
       emit(UploadFailureState("Please enter your name"));
     } else if (path == null && name.isNotEmpty) {
