@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/features/upload_info/cubit/upload_states.dart';
@@ -12,6 +14,7 @@ class UploadCubit extends Cubit<UploadStates> {
     path = LocalHelper.getData(LocalHelper.kImage);
     isUpload = LocalHelper.getData(LocalHelper.kIsUpload) ?? false;
     emit(UploadDoneState());
+    emit(UploadSucssessState(path: path ?? ''));
   }
 
   void checkData(String name) {
